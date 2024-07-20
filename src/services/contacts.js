@@ -1,44 +1,30 @@
 import { ContactsCollection } from '../db/models/contact.js';
 
-
-export const getAllContacts = async () => {
-  const contacts = await ContactsCollection.find();
-  return contacts;
+export const getAllContacts = () => {
+  return ContactsCollection.find();
 };
 
-export const getContactById = async (contactId) => {
-  const contact = await ContactsCollection.findById(contactId);
-  return contact;
+export const getContactById = (contactId) => {
+  return ContactsCollection.findById(contactId);
 };
 
-export const createContact = async (payload) => {
-  const contact = await ContactsCollection.create(payload);
-  return contact;
+export const createContact = (contact) => {
+  return ContactsCollection.create(contact);
 };
 
-export const deleteContact = async (contactId) => {
-  const contact = await ContactsCollection.findOneAndDelete({
-    _id: contactId,
-	});
-
-  return contact;
+export const deleteContact = (contactId) => {
+  return ContactsCollection.findByIdAndDelete(contactId);
 };
 
-export const updateContact = async (contactId, payload, options = {}) => {
-  const rawResult = await ContactsCollection.findOneAndUpdate(
-    { _id: contactId },
-    payload,
-    {
-      new: true,
-      includeResultMetadata: true,
-      ...options,
-    },
-	);
+export const updateContact = (contactId, contact) => {
+  return ContactsCollection.findByIdAndUpdate(contactId, contact, {
+    new: true,
+    upsert: true,
+  });
+};
 
-	if (!rawResult || !rawResult.value) return null;
-	
-  return {
-    contact: rawResult.value,
-    isNew: Boolean(rawResult?.lastErrorObject?.upserted),
-  };
+export const patchContact = (contactId, contact) => {
+  return ContactsCollection.findByIdAndUpdate(contactId, contact, {
+    new: true,
+  });
 };
