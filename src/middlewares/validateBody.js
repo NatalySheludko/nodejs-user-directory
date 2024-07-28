@@ -3,15 +3,7 @@ import createHttpError from 'http-errors';
 export function validateBody(schema) {
   return async (req, res, next) => {
     try {
-      const dataToValidate = {
-        name: 'John Doe',
-        phoneNumber: '+380000000002',
-        email: 'john.doe@example.com',
-        isFavourite: true,
-        contactType: 'work',
-      };
-
-      await schema.validateAsync(dataToValidate, { abortEarly: false });
+      await schema.validateAsync(req.body, { abortEarly: false });
 
       next();
     } catch (error) {
