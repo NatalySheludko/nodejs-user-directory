@@ -26,8 +26,9 @@ router.get(
 );
 router.post(
   '/contacts',
-  validateBody(createContactSchema),
+
   jsonParser,
+  validateBody(createContactSchema),
   ctrlWrapper(createContactController),
 );
 router.delete(
