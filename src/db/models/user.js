@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-
 const usersSchema = new mongoose.Schema(
   {
     name: {
@@ -24,9 +23,9 @@ const usersSchema = new mongoose.Schema(
 );
 
 usersSchema.methods.toJSON = function () {
-	const obj = this.toObject();
-	delete obj.password;
-	return obj;
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
 };
 
 export const UsersCollection = mongoose.model('users', usersSchema);
