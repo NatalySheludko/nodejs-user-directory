@@ -21,38 +21,33 @@ const router = express.Router();
 const jsonParser = express.json();
 router.use(authenticate);
 
-router.get('/',
-	ctrlWrapper(getContactsController));
-router.get(
-  '/:contactId',
-	isValidId,
-  ctrlWrapper(getContactByIdController),
-);
+router.get('/', ctrlWrapper(getContactsController));
+
+router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController));
+
 router.post(
   '/',
   jsonParser,
-	validateBody(createContactSchema),
-	upload.single('photo'),
+  upload.single('photo'),
+  validateBody(createContactSchema),
   ctrlWrapper(createContactController),
 );
-router.delete(
-  '/:contactId',
-  isValidId,
-  ctrlWrapper(deleteContactController),
-);
+
+router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactController));
+
 router.put(
   '/:contactId',
   isValidId,
   jsonParser,
-  upload.single('photo'),
   ctrlWrapper(upsertContactController),
 );
+
 router.patch(
   '/:contactId',
   isValidId,
   jsonParser,
-  validateBody(updateContactSchema),
   upload.single('photo'),
+  validateBody(updateContactSchema),
   ctrlWrapper(patchContactController),
 );
 
