@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
 import handlebars from 'handlebars';
+import { env } from '../utils/env.js';
 import { UsersCollection } from '../db/models/user.js';
 import {
   FIFTEEN_MINUTES,
@@ -98,7 +99,7 @@ export const requestResetToken = async (email) => {
       sub: user._id,
       email,
     },
-    process.env.JWT_SECRET,
+    env('JWT_SECRET'),
     {
       expiresIn: '15m',
     },
@@ -112,7 +113,7 @@ export const requestResetToken = async (email) => {
 
   const html = template({
     name: user.name,
-    link: `${process.env.APP_DOMAIN}/auth/reset-password?token=${resetToken}`,
+    link: `${env('APP_DOMAIN')}/auth/reset-password?token=${resetToken}`,
   });
 
   await sendEmail({
@@ -134,7 +135,7 @@ export const resetPassword = async (payload) => {
   let entries;
 
   try {
-    entries = jwt.verify(payload.token, process.env.JWT_SECRET);
+    entries = jwt.verify(payload.token, env('JWT_SECRET'));
   } catch (err) {
     if (err instanceof Error)
       throw createHttpError(401, 'Token is expired or invalid.');

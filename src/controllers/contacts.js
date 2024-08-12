@@ -1,4 +1,5 @@
 import createHttpError from 'http-errors';
+import { env } from '../utils/env.js';
 import {
   getAllContacts,
   getContactById,
@@ -11,7 +12,7 @@ import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
-import { uploadToCloudinary } from '../utils/uploadToCloudinary.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 
 export const getContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -55,8 +56,8 @@ export const createContactController = async (req, res) => {
   let photoUrl;
 
   if (photo) {
-    if (process.env.ENABLE_CLOUDINARY === 'true') {
-      photoUrl = await uploadToCloudinary(photo);
+    if (env('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
     } else {
       photoUrl = await saveFileToUploadDir(photo);
     }
@@ -123,8 +124,8 @@ export const patchContactController = async (req, res, next) => {
   let photoUrl;
 
   if (photo) {
-    if (process.env.ENABLE_CLOUDINARY === 'true') {
-      photoUrl = await uploadToCloudinary(photo);
+    if (env('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
     } else {
       photoUrl = await saveFileToUploadDir(photo);
     }
@@ -150,6 +151,6 @@ export const patchContactController = async (req, res, next) => {
   res.status(200).send({
     status: 200,
     message: 'Successfully patched a contact!',
-    data: req.body,
+    data: result,
   });
 };

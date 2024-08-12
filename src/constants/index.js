@@ -21,8 +21,8 @@ export const TMP_UPLOAD_DIR = path.resolve('src', 'tmp');
 export const UPLOAD_AVATAR_DIR = path.resolve('src', 'uploads', 'avatars');
 
 export const CLOUDINARY = {
-  CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
-  API_KEY: process.env.CLOUDINARY_API_KEY,
-  API_SECRET: process.env.CLOUDINARY_API_SECRET,
+  CLOUD_NAME: 'CLOUD_NAME',
+  API_KEY: 'API_KEY',
+  API_SECRET: 'API_SECRET',
 };
 
