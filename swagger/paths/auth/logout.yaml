@@ -1,0 +1,31 @@
+tags:
+  - Auth
+summary: Logout a user
+operationId: logoutUser
+description: 'Log out a user by clearing their session.'
+responses:
+  '204':
+    description: Successfully logged out
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+          properties:
+            status:
+              type: integer
+              example: 204
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 401
+            message:
+              type: string
+              example: Session not found
