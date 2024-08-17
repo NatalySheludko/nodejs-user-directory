@@ -1,0 +1,42 @@
+tags:
+  - Auth
+summary: Refresh user session
+operationId: refreshUserSession
+description: 'Refresh the user session using a valid refresh token.'
+responses:
+  '200':
+    description: Refresh session
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully refreshed a session!
+            data:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                  example: 'hcPAWR18vajiQM1QRdnk8FCtDqajhGlITk5W7FhQ'
+  '401':
+    description: Unauthorized - Invalid session or refresh token
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 401
+            message:
+              type: string
+              example: Session not found

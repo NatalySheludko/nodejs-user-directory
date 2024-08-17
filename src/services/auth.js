@@ -15,6 +15,8 @@ import {
 } from '../constants/index.js';
 import { SessionsCollection } from '../db/models/session.js';
 import { sendEmail } from '../utils/sendMail.js';
+import { validateCode } from '../utils/googleOAuth2.js';
+import { Session } from 'node:inspector';
 
 export const registerUser = async (user) => {
   const userExist = await UsersCollection.findOne({ email: user.email });
@@ -155,5 +157,47 @@ export const resetPassword = async (payload) => {
 
   await UsersCollection.findByIdAndUpdate(user._id, {
     password: encryptedPassword,
+  });
+};
+
+export const loginOrRegisterWithGoogle = async (code) => {
+  const ticket = await validateCode(code);
+
+  const payload = ticket.getPayload();
+
+  if (typeof payload === 'undefined') {
+    throw createHttpError(401, 'Unauthorized');
+  }
+  const user = await UsersCollection.findOne({ email: payload.email });
+
+  if (user === null) {
+    const password = await bcrypt.hash(
+      crypto.randomBytes(30).toString('base64'),
+      10,
+    );
+
+    const createdUser = await UsersCollection.create({
+      email: payload.email,
+      name: payload.name,
+      password: password,
+    });
+
+    return await SessionsCollection.create({
+      userId: createdUser._id,
+      accessToken: crypto.randomBytes(30).toString('base64'),
+      refreshToken: crypto.randomBytes(30).toString('base64'),
+      accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
+      refreshTokenValidUntil: new Date(Date.now() + THIRTY_DAYS),
+    });
+	}
+
+	await Session.deleteOne({ userId: user._id });
+
+  return await SessionsCollection.create({
+    userId: user._id,
+    accessToken: crypto.randomBytes(30).toString('base64'),
+    refreshToken: crypto.randomBytes(30).toString('base64'),
+    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
+    refreshTokenValidUntil: new Date(Date.now() + THIRTY_DAYS),
   });
 };

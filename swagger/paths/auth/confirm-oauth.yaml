@@ -1,0 +1,39 @@
+tags:
+  - Auth
+summary: Login or register with Google
+operationId: loginWithGoogle
+description: 'Authenticate the user with Google and create a session.'
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - code
+        properties:
+          code:
+            description: 'Authorization code received from Google'
+            type: string
+            example: '4/0AcvDMrA2YRiV2ijNhx1fCDVzj6fxMg90vepodihJVh5d1SOiUP1ldML6elKkecgnIiWnfg'
+responses:
+  '200':
+    description: Successfully logged in or registered with Google
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Login with Google completed!
+            data:
+              type: object
+              properties:
+                accessToken:
+                  type: string
+                  example: 'abc123xyz'
+  '401':
+    $ref: '../../components/responses/401.yaml'
