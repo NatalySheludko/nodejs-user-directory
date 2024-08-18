@@ -4,6 +4,7 @@ summary: Reset user password
 operationId: resetPassword
 description: 'Reset the user password using a valid reset token.'
 requestBody:
+  required: true
   content:
     application/json:
       schema:

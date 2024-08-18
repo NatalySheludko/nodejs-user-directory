@@ -45,11 +45,6 @@
         "summary": "Get list of contacts",
         "operationId": "getContacts",
         "description": "Get list of users with this endpoint",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "parameters": [
           {
             "in": "query",
@@ -184,12 +179,8 @@
         "summary": "Create contact",
         "operationId": "createContact",
         "description": "Create a contact with payload",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "requestBody": {
+          "required": true,
           "content": {
             "multipart/form-data": {
               "schema": {
@@ -198,7 +189,6 @@
                   "name",
                   "phoneNumber",
                   "email",
-                  "isFavourite",
                   "contactType"
                 ],
                 "properties": {
@@ -215,7 +205,7 @@
                   "email": {
                     "description": "Contact's email",
                     "type": "string",
-                    "example": "doe@gmail.com"
+                    "example": "contact@gmail.com"
                   },
                   "isFavourite": {
                     "description": "Whether contact is favourite",
@@ -285,11 +275,6 @@
         "summary": "Get contact by id",
         "operationId": "getContact",
         "description": "Get contact by id",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "parameters": [
           {
             "in": "path",
@@ -368,11 +353,6 @@
         "summary": "Patch contact by id",
         "operationId": "patchContact",
         "description": "Patch contact by id",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "parameters": [
           {
             "in": "path",
@@ -384,6 +364,30 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "contact@example.com"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "+380000000003"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Successfully patched a contact",
@@ -451,11 +455,6 @@
         "summary": "Delete contact by id",
         "operationId": "deleteContact",
         "description": "Delete contact by id",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "parameters": [
           {
             "in": "path",
@@ -528,6 +527,7 @@
         "operationId": "registerUser",
         "description": "Register a new user by providing their name, email, and password.",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -604,6 +604,7 @@
         "operationId": "loginUser",
         "description": "Authenticate a user by providing their email and password.",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -820,6 +821,7 @@
         "operationId": "requestResetToken",
         "description": "Send reset password email",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -903,6 +905,7 @@
         "operationId": "resetPassword",
         "description": "Reset the user password using a valid reset token.",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -1030,6 +1033,7 @@
         "operationId": "loginWithGoogle",
         "description": "Authenticate the user with Google and create a session.",
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {

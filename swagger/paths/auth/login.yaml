@@ -4,6 +4,7 @@ summary: Login a user
 operationId: loginUser
 description: 'Authenticate a user by providing their email and password.'
 requestBody:
+  required: true
   content:
     application/json:
       schema:

@@ -4,6 +4,7 @@ summary: Login or register with Google
 operationId: loginWithGoogle
 description: 'Authenticate the user with Google and create a session.'
 requestBody:
+  required: true
   content:
     application/json:
       schema:
