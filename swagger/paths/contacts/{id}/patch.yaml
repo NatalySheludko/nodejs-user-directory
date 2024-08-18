@@ -3,8 +3,6 @@ tags:
 summary: Patch contact by id
 operationId: patchContact
 description: 'Patch contact by id'
-security:
-  - bearerAuth: []
 parameters:
   - in: path
     name: id
@@ -12,6 +10,22 @@ parameters:
     schema:
       type: string
       example: '65ca67e7ae7f10c88b598384'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            example: 'John Doe'
+          email:
+            type: string
+            example: 'contact@example.com'
+          phone:
+            type: string
+            example: '+380000000003'
 responses:
   '200':
     description: 'Successfully patched a contact'
