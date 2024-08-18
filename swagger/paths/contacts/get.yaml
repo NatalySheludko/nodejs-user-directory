@@ -3,8 +3,6 @@ tags:
 summary: Get list of contacts
 operationId: getContacts
 description: 'Get list of users with this endpoint'
-security:
-  - bearerAuth: []
 parameters:
   - in: query
     name: page
