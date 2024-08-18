@@ -3,9 +3,8 @@ tags:
 summary: Create contact
 operationId: createContact
 description: 'Create a contact with payload'
-security:
-  - bearerAuth: []
 requestBody:
+  required: true
   content:
     multipart/form-data:
       schema:
@@ -14,7 +13,6 @@ requestBody:
           - name
           - phoneNumber
           - email
-          - isFavourite
           - contactType
         properties:
           name:
@@ -28,7 +26,7 @@ requestBody:
           email:
             description: "Contact's email"
             type: string
-            example: 'doe@gmail.com'
+            example: 'contact@gmail.com'
           isFavourite:
             description: 'Whether contact is favourite'
             type: boolean
