@@ -4,6 +4,7 @@ summary: Send reset password email
 operationId: requestResetToken
 description: 'Send reset password email'
 requestBody:
+  required: true
   content:
     application/json:
       schema:
