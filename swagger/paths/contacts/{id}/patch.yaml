@@ -13,19 +13,34 @@ parameters:
 requestBody:
   required: true
   content:
-    application/json:
+    multipart/form-data:
       schema:
         type: object
         properties:
           name:
+            description: "Contact's name"
             type: string
             example: 'John Doe'
-          email:
-            type: string
-            example: 'contact@example.com'
-          phone:
+          phoneNumber:
+            description: "Contact's phone number"
             type: string
             example: '+380000000003'
+          email:
+            description: "Contact's email"
+            type: string
+            example: 'contact@gmail.com'
+          isFavourite:
+            description: 'Whether contact is favourite'
+            type: boolean
+            example: false
+          contactType:
+            description: "Contact's type"
+            type: string
+            enum: ['work', 'home', 'personal']
+          photo:
+            description: "Contact's photo"
+            type: string
+            format: binary
 responses:
   '200':
     description: 'Successfully patched a contact'
