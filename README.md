@@ -31,38 +31,42 @@
 ## Встановлення та запуск
 
 1. Клонувати репозиторій:
-   ```bash git clone https://github.com/NatalySheludko/nodejs-user-directory.git
+   ```bash
+   git clone https://github.com/NatalySheludko/nodejs-user-directory.git
 2. Встановити залежності:
-   ```bash npm install
+   ```bash
+   npm install
 3. Запустити сервер:
-   ```bash npm run dev
+   ```bash
+   npm run dev
 4. Перегляд документації:
-   ```bash npm run preview-docs
+   ```bash
+   npm run preview-docs
 
 ## API
-POST /auth/register – реєстрація нового користувача.
-POST /auth/login – логін користувача.
-POST /auth/logout – вихід із системи.
-POST /auth/refresh – оновлення токену доступу.
-POST /auth/send-reset-email - надсилання email-повідомлень для скидання пароля.
-POST /auth/reset-pwd - зміна пароля користувача за підтвердженням валідного токену для скидання пароля.
-GET /auth/get-oauth-url - отримання Google OAuth посилання для автентифікації користувача.
-POST /auth/confirm-oauth - підтвердження Google OAuth автентифікації користувача через створення нової сесії.
+- POST /auth/register – реєстрація нового користувача.
+- POST /auth/login – логін користувача.
+- POST /auth/logout – вихід із системи.
+- POST /auth/refresh – оновлення токену доступу.
+- POST /auth/send-reset-email - надсилання email-повідомлень для скидання пароля.
+- POST /auth/reset-pwd - зміна пароля користувача за підтвердженням валідного токену для скидання пароля.
+- GET /auth/get-oauth-url - отримання Google OAuth посилання для автентифікації користувача.
+- POST /auth/confirm-oauth - підтвердження Google OAuth автентифікації користувача через створення нової сесії.
 
-GET /user - отримання інформації про користувача.
-PATCH /users/avatar - оновлення зображення користувача.
-PATCH /user - оновлення інформації про користувача .
-PUT /user/{id} - оновлення інформації про користувача.
+- GET /user - отримання інформації про користувача.
+- PATCH /users/avatar - оновлення зображення користувача.
+- PATCH /user - оновлення інформації про користувача .
+- PUT /user/{id} - оновлення інформації про користувача.
  
-POST /contacts – створення нового контакту.
-GET /contacts – отримання списку всіх контактів із можливістю фільтрації:
-    Приклади використання фільтрації:
-    GET /contacts?page=1&perPage=10&sortBy=isFavourite&sortOrder=asc
-    GET /contacts?contactType=work&createdAfter=2023-01-01
-    GET /contacts?isFavourite=true&contactType=personal
-GET /contacts/{id} – отримання деталей про конкретний контакт.
-PATCH /contacts/{id} – оновлення даних контакту (також оновлення зображення контакта).
-DELETE /contacts/{id} – видалення контакту.
+- POST /contacts – створення нового контакту.
+- GET /contacts – отримання списку всіх контактів із можливістю фільтрації:
+Приклади використання фільтрації:
+    - GET /contacts?page=1&perPage=10&sortBy=isFavourite&sortOrder=asc
+    - GET /contacts?contactType=work&createdAfter=2023-01-01
+    - GET /contacts?isFavourite=true&contactType=personal
+- GET /contacts/{id} – отримання деталей про конкретний контакт.
+- PATCH /contacts/{id} – оновлення даних контакту (також оновлення зображення контакта).
+- DELETE /contacts/{id} – видалення контакту.
 
 ## Документація API через Swagger
 Swagger-документація доступна за роутом /api-docs за допомогою пакету swagger-ui-express. Вона містить інформацію про всі доступні ендпоінти та їх параметри.
