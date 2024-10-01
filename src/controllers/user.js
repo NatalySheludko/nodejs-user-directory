@@ -5,25 +5,22 @@ import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
 import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
 
 export const patchUserController = async (req, res, next) => {
-  const { userId } = req.params;
-  const img = req.file;
+  const { _id: userId } = req.user;
 
-  let avatarUrl;
+  const { name, email, password } = req.body;
+  const user = await getUser(userId);
 
-  if (img) {
-    if (env('ENABLE_CLOUDINARY') === 'true') {
-      avatarUrl = await saveFileToCloudinary(img);
-    } else {
-      avatarUrl = await saveFileToUploadDir(img);
-    }
+  if (!user) {
+    return next(createHttpError(404, 'User not found'));
+  }
+  let updatedData = { name, email, password };
+
+  if (password) {
+    const hashedPwd = await bcrypt.hash(password, 10);
+    updatedData.password = hashedPwd;
   }
 
-  const result = await patchUser(userId, {
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    avatarUrl: avatarUrl,
-  });
+  const result = await patchUser(userId, updatedData);
 
   if (!result) {
     return next(createHttpError(404, 'User not found'));
@@ -36,8 +33,35 @@ export const patchUserController = async (req, res, next) => {
   });
 };
 
+export const patchAvatarController = async (req, res, next) => {
+  const { _id: userId } = req.user;
+  const img = req.file;
+
+  let avatarUrl;
+
+  if (img) {
+    if (env('ENABLE_CLOUDINARY') === 'true') {
+      avatarUrl = await saveFileToCloudinary(img);
+    } else {
+      avatarUrl = await saveFileToUploadDir(img);
+    }
+  }
+
+  const result = await patchAvatar(userId, { avatarUrl });
+
+  if (!result) {
+    return next(createHttpError(404, 'User not found'));
+  }
+
+  res.status(200).send({
+    status: 200,
+    message: 'Successfully patched a user avatar!',
+    data: result,
+  });
+};
+
 export const getUserController = async (req, res, next) => {
-  const { userId } = req.params;
+  const { _id: userId } = req.user;
 
   const user = await getUser(userId);
 
@@ -55,12 +79,16 @@ export const getUserController = async (req, res, next) => {
 export const upsertUserController = async (req, res, next) => {
   const { userId } = req.params;
 
-  const user = await updateUser(userId, {
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    avatarUrl: req.file,
-  });
+  const { name, email, password, avatarUrl } = req.body;
+
+  let upsertData = { name, email, password, avatarUrl };
+
+  if (password) {
+    const hashedPwd = await bcrypt.hash(password, 10);
+    upsertData.password = hashedPwd;
+  }
+
+  const user = await updateUser(userId, upsertData);
 
   if (!user) {
     return next(createHttpError(404, 'User not found'));

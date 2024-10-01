@@ -11,8 +11,8 @@ tags:
     description: Operations about contacts.
   - name: Auth
     description: Auth operations.
-  - name: Api-docs
-    description: Api-docs operations.
+  - name: Users
+    description: Operations about user.
 servers:
   - url: http://127.0.0.1:3000
   - url: https://nodejs-hw-mongodb-ykgo.onrender.com
@@ -57,6 +57,17 @@ paths:
     post:
       security: []
       $ref: ../swagger/paths/auth/confirm-oauth.yaml
+  /users/avatar:
+    patch:
+      $ref: ../swagger/paths/user/avatar.yaml
+  /user/{id}:
+    put:
+      $ref: ../swagger/paths/user/{id}/put.yaml
+  /user:
+    get:
+      $ref: ../swagger/paths/user/get.yaml
+    patch:
+      $ref: ../swagger/paths/user/patch.yaml
 components:
   securitySchemes:
     bearerAuth:

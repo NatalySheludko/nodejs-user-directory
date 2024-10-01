@@ -15,6 +15,13 @@ export const setupServer = () => {
 
   app.use(cors());
 
+	app.use(
+    express.json({
+      type: ['application/json', 'application/vnd.api+json'],
+      limit: '100kb',
+    }),
+	);
+
   app.use(cookieParser());
 
   app.use(
@@ -23,7 +30,13 @@ export const setupServer = () => {
         target: 'pino-pretty',
       },
     }),
-  );
+	);
+
+	app.get('/', (req, res) => {
+    res.json({
+      message: 'Hello world!',
+    });
+  });
 
   app.use(router);
 

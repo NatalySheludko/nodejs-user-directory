@@ -10,7 +10,7 @@ export const updateUserSchema = Joi.object({
     'string.base': 'Email should be a string',
     'string.email': 'Email is not valid',
   }),
-  password: Joi.string().messages({
+  password: Joi.string().min(8).max(64).messages({
     'string.base': 'Name should be a string',
 	}),
 });
