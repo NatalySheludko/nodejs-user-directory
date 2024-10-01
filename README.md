@@ -59,8 +59,7 @@
 - PUT /user/{id} - оновлення інформації про користувача.
  
 - POST /contacts – створення нового контакту.
-- GET /contacts – отримання списку всіх контактів із можливістю фільтрації:
-Приклади використання фільтрації:
+- GET /contacts – отримання списку всіх контактів із можливістю фільтрації. Приклади використання фільтрації:
     - GET /contacts?page=1&perPage=10&sortBy=isFavourite&sortOrder=asc
     - GET /contacts?contactType=work&createdAfter=2023-01-01
     - GET /contacts?isFavourite=true&contactType=personal
